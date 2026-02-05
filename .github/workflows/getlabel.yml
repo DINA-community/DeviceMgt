@@ -31,7 +31,10 @@ jobs:
         run: |
           ls -la org-github/labels
           cat org-github/labels/label_default.yaml
-
+      - name: Show it again
+        run:  |
+          ls -R org-github/labels
+          cat org-github/labels/label_default.yaml
       - name: Sync labels
         uses: crazy-max/ghaction-github-labeler@v4
         with:
