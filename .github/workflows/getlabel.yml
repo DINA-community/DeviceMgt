@@ -26,5 +26,5 @@ jobs:
       - name: get labels
         uses: crazy-max/ghaction-github-labeler@v5
         with:
-          yaml-file: labels/label_default.yaml
+          yaml-file: label/label_default.yaml
 
