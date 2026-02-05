@@ -20,11 +20,13 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-    
- 
-      - name: get labels
+      - name: path to labels
+        uses: actions/checkout@v4
+        with:
+          repository: DINA-community/.github/label
+          path: label-source
+  
+      - name: Sync labels
         uses: crazy-max/ghaction-github-labeler@v5
         with:
-          yaml-file: label/label_default.yaml
-
+          yaml-file: label-source/label_default.yaml
