@@ -13,30 +13,39 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+name: github
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - '.github/labels.yml'
+      - '.github/workflows/labels.yml'
+  pull_request:
+    paths:
+      - '.github/labels.yml'
+      - '.github/workflows/labels.yml'
+
 jobs:
-  sync-labels:
+  labeler:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      issues: write
     steps:
-      - name: Checkout current repo
+      -
+        name: Checkout
         uses: actions/checkout@v4
-
-      - name: Checkout org .github repo
+      - 
+        name: Checkout org .github repo
         uses: actions/checkout@v4
         with:
           repository: DINA-community/.github
           path: org-github
-
-      - name: Show labels file
-        run: |
-          ls -la org-github/labels
-          cat org-github/labels/label_default.yaml
-      - name: Show it again
-        run:  |
-          ls -R org-github/labels
-          cat org-github/labels/label_default.yaml
-      - name: Sync labels
-        uses: crazy-max/ghaction-github-labeler@v4
+      -
+        name: Run Labeler
+        uses: crazy-max/ghaction-github-labeler@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          yaml-file: org-github/labels/label_default.yaml
+          yaml-file: .org-github/labels/label_default.yml
