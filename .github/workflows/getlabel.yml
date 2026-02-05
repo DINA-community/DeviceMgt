@@ -23,10 +23,10 @@ jobs:
       - name: path to labels
         uses: actions/checkout@v4
         with:
-          repository: DINA-community/.github/label
-          path: label-source
+          repository: DINA-community/.github
+          path: org-github
   
       - name: Sync labels
         uses: crazy-max/ghaction-github-labeler@v5
         with:
-          yaml-file: label-source/label_default.yaml
+          yaml-file: org-github/label/label_default.yaml
