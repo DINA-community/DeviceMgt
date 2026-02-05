@@ -29,4 +29,4 @@ jobs:
       - name: Sync labels
         uses: crazy-max/ghaction-github-labeler@v5
         with:
-          yaml-file: org-github/label/label_default.yaml
+          yaml-file: org-github/labels/label_default.yaml
