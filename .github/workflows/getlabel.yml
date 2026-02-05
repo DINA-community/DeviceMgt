@@ -30,17 +30,26 @@ jobs:
           repository: DINA-community/.github
           path: org-github
       - 
-        name: Merge label YAMLs
-        uses: mikefarah/yq@v4
-        with:
-          args: >
-            eval-all '
-              .labels = (.[0].labels + .[1].labels) |
-              {labels: .labels}
-            ' org-github/labels/label_default.yaml org-github/labels/label_matcher.yaml > labels/labels.yaml
-      -
-        name: Run Labeler
+        name: Install yq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y yq
+      
+      - name: Merge label YAMLs
+        run: |
+          yq eval-all '
+            .labels = (.[0].labels + .[1].labels) |
+            {labels: .labels}
+          ' org-github/labels/label_default.yaml org-github/labels/label_matcher.yaml \
+          > org-github/labels/label_repospecific.yaml
+      
+      - name: Debug merged file
+        run: |
+          ls -la org-github/labels
+          cat org-github/labels/label_repospecific.yaml
+      
+      - name: Run Labeler
         uses: crazy-max/ghaction-github-labeler@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          yaml-file: org-github/labels/labels.yaml
+          yaml-file: org-github/labels/label_repospecific.yaml
