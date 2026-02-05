@@ -29,28 +29,15 @@ jobs:
         with:
           repository: DINA-community/.github
           path: org-github
-      - 
-        name: Install yq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y yq
-      
-      - name: Merge label YAMLs
-        run: |
-          run: |
-          yq eval-all 'select(filename == "org-github/labels/label_default.yaml").labels +
-                       select(filename == "org-github/labels/label_matcher.yaml").labels
-                       | {labels: .}' \
-            org-github/labels/label_default.yaml org-github/labels/label_matcher.yaml \
-            > org-github/labels/label_repospecific.yml
-      
-      - name: Debug merged file
-        run: |
-          ls -la org-github/labels
-          cat org-github/labels/label_repospecific.yaml
       
       - name: Run Labeler
         uses: crazy-max/ghaction-github-labeler@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          yaml-file: org-github/labels/label_repospecific.yaml
+          yaml-file: org-github/labels/label_default.yaml
+
+      - name: Run Labeler Specific
+        uses: crazy-max/ghaction-github-labeler@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yaml-file: org-github/labels/label_matcher.yaml
