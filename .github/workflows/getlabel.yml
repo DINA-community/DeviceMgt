@@ -37,11 +37,10 @@ jobs:
       
       - name: Merge label YAMLs
         run: |
-          yq eval-all '
-            .labels = (.[0].labels + .[1].labels) |
-            {labels: .labels}
-          ' org-github/labels/label_default.yaml org-github/labels/label_matcher.yaml \
-          > org-github/labels/label_repospecific.yaml
+          yq eval-all ".labels = (.[0].labels + .[1].labels) | {labels: .labels}" \
+            org-github/labels/label_default.yaml \
+            org-github/labels/label_matcher.yaml \
+            > org-github/labels/labels.yml
       
       - name: Debug merged file
         run: |
